@@ -10,8 +10,8 @@ namespace ProjetoModeloDDD.MVC.Controllers
     public class ProdutosController : Controller
     {
         private readonly IProdutoAppService _produtoApp;
-        private readonly IProdutoAppService _clienteApp;
-        public ProdutosController(IProdutoAppService produtoApp, IProdutoAppService clienteApp)
+        private readonly IClienteAppService _clienteApp;
+        public ProdutosController(IProdutoAppService produtoApp, IClienteAppService clienteApp)
         {
             _produtoApp = produtoApp;
             _clienteApp = clienteApp;
@@ -60,6 +60,7 @@ namespace ProjetoModeloDDD.MVC.Controllers
         {
             var Produto = _produtoApp.GetById(id);
             var ProdutoViewModel = Mapper.Map<Produto, ProdutoViewModel>(Produto);
+            ViewBag.ClienteId = new SelectList(_clienteApp.GetAll(), "ClienteId", "Nome", ProdutoViewModel.ClienteId);
 
             return View(ProdutoViewModel);
         }
